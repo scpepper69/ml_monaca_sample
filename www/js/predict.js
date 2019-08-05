@@ -4,11 +4,16 @@ const CLASSES = {0:'zero', 1:'one', 2:'two', 3:'three', 4:'four',5:'five', 6:'si
 // start button event
 //-----------------------
 
-$("#start-button").click(function(){
+$("#select-button").click(function(){
 	loadModel() ;
-  //alert("XXX");
-	startWebcam();
+	selectPhoto();
 });
+
+$("#take-button").click(function(){
+	loadModel() ;
+	takePhoto();
+});
+
 
 //-----------------------
 // load model
@@ -16,67 +21,72 @@ $("#start-button").click(function(){
 
 let model;
 async function loadModel() {
-	console.log("model loading..");
-	$("#console").html(`<li>model loading...</li>`);
+	console.log("AI model loading..");
+	$("#console").html(`<li>AI model loading...</li>`);
 	model=await tf.loadModel(`./model/model.json`);
-	console.log("model loaded.");
-	$("#console").html(`<li>VGG16 pre trained model loaded.</li>`);
+	console.log("AI Trained model loaded.");
+	$("#console").html(`<li>AI Trained model loaded.</li>`);
 };
 
 //-----------------------
 // start webcam 
 //-----------------------
 
-var video;
-function startWebcam() {
-	console.log("video streaming start.");
-	$("#console").html(`<li>video streaming start.</li>`);
-	video = $('#main-stream-video').get(0);
-	vendorUrl = window.URL || window.webkitURL;
+function selectPhoto() {
+	console.log("Selecting a photo start.");
+	$("#console").html(`<li>Now selecting a photo.</li>`);
 
   document.addEventListener("deviceready", onDeviceReady, false);
   function onDeviceReady() {
     console.log(navigator.camera);
   }
+  //Get a picture from library();
+  getPicFile();
+}
 
-//  var option = {
-//    saveToPhotoAlbum: true //撮影後端末に保存
-//  };
+function takePhoto() {
+	console.log("Taking a photo start.");
+	$("#console").html(`<li>Now taking a photo.</li>`);
 
-  //カメラを起動
-//  navigator.camera.getPicture(onSuccess, onError, option);
-  navigator.camera.getPicture(onSuccess, onFail, { quality: 25, destinationType: Camera.DestinationType.DATA_URL });
-
-  function onSuccess(imageData) {
-    var image = document.getElementById('myImage');
-    image.src = "data:image/jpeg;base64," + imageData;
+  document.addEventListener("deviceready", onDeviceReady, false);
+  function onDeviceReady() {
+    console.log(navigator.camera);
   }
+  //Get a picture from camera();
+  getPicCamera();
+}
 
-  //成功時に呼び出されるコールバック関数
-  //function onSuccess(imageURI){
-  //  document.querySelector("#photo").src = imageURI;
-  //}
-        
-  //失敗時に呼び出されるコールバック関数
-  function onFail(message){
-      alert("Error:" + message);
-  }
+//-----------------------
+// TensorFlow.js method
+// predict tensor
+//-----------------------
+async function predict(){
 
-	navigator.getMedia = navigator.getUserMedia ||
-						 navigator.webkitGetUserMedia ||
-						 navigator.mozGetUserMedia ||
-						 navigator.msGetUserMedia;
+  //Get the picture image data
+  var image = document.getElementById('myImage');
+  //Transform to tensor data
+  tensor_image = preprocessImage(image);
+  //console.log(tensor_image);
+  prediction = await model.predict(tensor_image).data();
+  //console.log(prediction);
+	let results = Array.from(prediction)
+				.map(function(p,i){
+	return {  
+		probability: p,
+		className: CLASSES[i]
+	};
+	}).sort(function(a,b){
+		return b.probability-a.probability;
+	}).slice(0,3);
 
-	navigator.getMedia({
-		video: true,
-		audio: false
-	}, function(stream) {
-		localStream = stream;
-		video.srcObject = stream;
-		video.play();
-	}, function(error) {
-		alert("Something wrong with webcam!");
+	$("#console").empty();
+
+  //Display the result of top 3
+	results.forEach(function(p){
+		$("#console").append(`<li>${p.className} : ${p.probability.toFixed(6)}</li>`);
+		console.log(p.className,p.probability.toFixed(6))
 	});
+
 }
 
 //-----------------------
@@ -87,56 +97,12 @@ $("#predict-button").click(function(){
 	setInterval(predict, 1000/10);
 });
 
-//-----------------------
-// TensorFlow.js method
-// predict tensor
-//-----------------------
 
-async function predict(){
-	let tensor = captureWebcam();
-
-	let prediction = await model.predict(tensor).data();
-	let results = Array.from(prediction)
-				.map(function(p,i){
-	return {
-		probability: p,
-		className: CLASSES[i]
-	};
-	}).sort(function(a,b){
-		return b.probability-a.probability;
-	}).slice(0,5);
-
-	$("#console").empty();
-
-	results.forEach(function(p){
-		$("#console").append(`<li>${p.className} : ${p.probability.toFixed(6)}</li>`);
-		console.log(p.className,p.probability.toFixed(6))
-	});
-
-};
-
-//------------------------------
-// capture streaming video 
-// to a canvas object
-//------------------------------
-
-function captureWebcam() {
-	var canvas    = document.createElement("canvas");
-	var context   = canvas.getContext('2d');
-	canvas.width  = video.width;
-	canvas.height = video.height;
-
-	context.drawImage(video, 0, 0, video.width, video.height);
-	tensor_image = preprocessImage(canvas);
-
-	return tensor_image;
-}
 
 //-----------------------
 // TensorFlow.js method
 // image to tensor
 //-----------------------
-
 function preprocessImage(image){
 	let tensor = tf.fromPixels(image).resizeNearestNeighbor([100,100]).toFloat();	
 	let offset = tf.scalar(255);
@@ -157,9 +123,72 @@ $("#clear-button").click(function clear() {
 function show_pic() {
     alert("xxx");
     navigator.camera.getPicture(dump_pic, fail, {
-        quality : 50,
+        quality : 100,
         destinationType: Camera.DestinationType.DATA_URL,
-        targetWidth: 100,
-        targetHeight: 100
+        targetWidth: 300,
+        targetHeight: 300
     });
+}
+
+function setOptions(srcType) {
+    var options = {
+        // Some common settings are 20, 50, and 100
+        quality: 50,
+        destinationType: Camera.DestinationType.FILE_URI,
+        // In this app, dynamically set the picture source, Camera or photo gallery
+        sourceType: srcType,
+        encodingType: Camera.EncodingType.JPEG,
+        mediaType: Camera.MediaType.PICTURE,
+        allowEdit: true,
+        correctOrientation: true  //Corrects Android orientation quirks
+    }
+    return options;
+}
+
+function getPicFile() {
+
+  var srcType = Camera.PictureSourceType.SAVEDPHOTOALBUM;
+  var options = setOptions(srcType);
+  options.targetHeight = 300;
+  options.targetWidth = 300;
+  options.destinationType = Camera.DestinationType.DATA_URL;
+
+  navigator.camera.getPicture(onSuccess, onFail, options);
+
+  function onSuccess(imageData) {
+    var image = document.getElementById('myImage');
+    image.src = "data:image/jpeg;base64," + imageData;
+  }
+
+  //失敗時に呼び出されるコールバック関数
+  function onFail(message){
+    alert("Error: No photo has selected." + message);
+  }
+
+}
+
+function getPicCamera(){
+  //カメラを起動
+  var srcType = Camera.PictureSourceType.CAMERA;
+  var options = setOptions(srcType);
+  options.targetHeight = 300;
+  options.targetWidth = 300;
+  options.destinationType = Camera.DestinationType.DATA_URL;
+
+  navigator.camera.getPicture(onSuccess, onFail, options);
+
+  function onSuccess(imageData) {
+    var image = document.getElementById('myImage');
+    image.src = "data:image/jpeg;base64," + imageData;
+  }
+
+  //成功時に呼び出されるコールバック関数
+  //function onSuccess(imageURI){
+  //  document.querySelector("#photo").src = imageURI;
+  //}
+        
+  //失敗時に呼び出されるコールバック関数
+  function onFail(message){
+      alert("Error:" + message);
+  }
 }
