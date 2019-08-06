@@ -1,2 +1,15 @@
 /**/
+.inline-block_test {
+    display: inline-block;      /* インラインブロック要素にする */
+    vertical-align:  middle;
+    width:  49.2%; 
+    text-align:  center; 
+    box-sizing:  border-box;
+}
 
+.inline-img {
+    display: inline-block;      /* インラインブロック要素にする */
+    vertical-align:  middle;
+    width:  100%; 
+    box-sizing:  border-box;
+}

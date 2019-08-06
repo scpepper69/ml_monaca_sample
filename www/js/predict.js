@@ -22,10 +22,10 @@ $("#take-button").click(function(){
 let model;
 async function loadModel() {
 	console.log("AI model loading..");
-	$("#console").html(`<li>AI model loading...</li>`);
+	$("#console").html(`<h4>AI model loading...</h4>`);
 	model=await tf.loadModel(`./model/model.json`);
 	console.log("AI Trained model loaded.");
-	$("#console").html(`<li>AI Trained model loaded.</li>`);
+	$("#console").html(`<h4>AI Trained model loaded.</h4>`);
 };
 
 //-----------------------
@@ -34,7 +34,7 @@ async function loadModel() {
 
 function selectPhoto() {
 	console.log("Selecting a photo start.");
-	$("#console").html(`<li>Now selecting a photo.</li>`);
+	$("#console").html(`<h4>Now selecting a photo.</h4>`);
 
   document.addEventListener("deviceready", onDeviceReady, false);
   function onDeviceReady() {
@@ -46,7 +46,7 @@ function selectPhoto() {
 
 function takePhoto() {
 	console.log("Taking a photo start.");
-	$("#console").html(`<li>Now taking a photo.</li>`);
+	$("#console").html(`<h4>Now taking a photo.</h4>`);
 
   document.addEventListener("deviceready", onDeviceReady, false);
   function onDeviceReady() {
@@ -72,7 +72,7 @@ async function predict(){
 	let results = Array.from(prediction)
 				.map(function(p,i){
 	return {  
-		probability: p,
+		probability: Math.round(p*1000)/10,
 		className: CLASSES[i]
 	};
 	}).sort(function(a,b){
@@ -83,7 +83,7 @@ async function predict(){
 
   //Display the result of top 3
 	results.forEach(function(p){
-		$("#console").append(`<li>${p.className} : ${p.probability.toFixed(6)}</li>`);
+		$("#console").append(`<h4>You are ${p.className} (${p.probability.toFixed(1)} %) </h4>`);
 		console.log(p.className,p.probability.toFixed(6))
 	});
 
@@ -149,8 +149,8 @@ function getPicFile() {
 
   var srcType = Camera.PictureSourceType.SAVEDPHOTOALBUM;
   var options = setOptions(srcType);
-  options.targetHeight = 300;
-  options.targetWidth = 300;
+  options.targetHeight = 400;
+  options.targetWidth = 400;
   options.destinationType = Camera.DestinationType.DATA_URL;
 
   navigator.camera.getPicture(onSuccess, onFail, options);
@@ -171,8 +171,8 @@ function getPicCamera(){
   //カメラを起動
   var srcType = Camera.PictureSourceType.CAMERA;
   var options = setOptions(srcType);
-  options.targetHeight = 300;
-  options.targetWidth = 300;
+  options.targetHeight = 400;
+  options.targetWidth = 400;
   options.destinationType = Camera.DestinationType.DATA_URL;
 
   navigator.camera.getPicture(onSuccess, onFail, options);
