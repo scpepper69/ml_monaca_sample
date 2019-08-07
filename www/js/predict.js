@@ -1,4 +1,5 @@
-const CLASSES = {0:'zero', 1:'one', 2:'two', 3:'three', 4:'four',5:'five', 6:'six', 7:'seven', 8:'eight', 9:'nine'}
+//const CLASSES = {0:'zero', 1:'one', 2:'two', 3:'three', 4:'four',5:'five', 6:'six', 7:'seven', 8:'eight', 9:'nine'}
+const CLASSES = {0:'RX-178', 1:'MSZ-006', 2:'RX-93', 3:'MS-06'}
 
 //-----------------------
 // start button event
@@ -23,7 +24,8 @@ let model;
 async function loadModel() {
 	console.log("AI model loading..");
 	$("#console").html(`<h4>AI model loading...</h4>`);
-	model=await tf.loadModel(`./model/model.json`);
+//	model=await tf.loadModel(`./model/model.json`);
+  model=await tf.loadLayersModel(`./model/model.json`);
 	console.log("AI Trained model loaded.");
 	$("#console").html(`<h4>AI Trained model loaded.</h4>`);
 };
@@ -158,6 +160,9 @@ function getPicFile() {
   function onSuccess(imageData) {
     var image = document.getElementById('myImage');
     image.src = "data:image/jpeg;base64," + imageData;
+    console.log("Selected Successfully.");
+	  $("#console").html(`<h4>Selected Successfully.</h4>`);
+
   }
 
   //失敗時に呼び出されるコールバック関数
@@ -180,6 +185,8 @@ function getPicCamera(){
   function onSuccess(imageData) {
     var image = document.getElementById('myImage');
     image.src = "data:image/jpeg;base64," + imageData;
+    console.log("Selected Successfully.");
+	  $("#console").html(`<h4>Selected Successfully.</h4>`);
   }
 
   //成功時に呼び出されるコールバック関数
