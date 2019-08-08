@@ -6,7 +6,9 @@ const CLASSES = {0:'RX-178', 1:'MSZ-006', 2:'RX-93', 3:'MS-06'}
 //-----------------------
 
 $("#select-button").click(function(){
-	loadModel() ;
+  //const a = tf.tensor([[1, 2], [3, 4]]);
+  //console.log('shape:', a.shape);
+	loadModel();
 	selectPhoto();
 });
 
@@ -24,8 +26,16 @@ let model;
 async function loadModel() {
 	console.log("AI model loading..");
 	$("#console").html(`<h4>AI model loading...</h4>`);
-//	model=await tf.loadModel(`./model/model.json`);
-  model=await tf.loadLayersModel(`./model/model.json`);
+//	model=await tf.loadModel(`./model/model.json`); 
+//  model=await tf.loadLayersModel(`./model/model.json`);
+//  model=await tf.loadModel(`./gf_model/model.json`);
+//  model=await tf.loadLayersModel(`./gf_model/model.json`);
+  model=await tf.loadLayersModel('https://www.scpepper.tokyo/models/model.json');
+//  model=await tf.loadLayersModel('model2/model.json');
+//  model=await tf.loadGraphModel('./gf_model/model.json');
+//  model.summary();
+  console.log(model)
+//  $("#console").html(`<h4>`+model.summary()+`</h4>`);
 	console.log("AI Trained model loaded.");
 	$("#console").html(`<h4>AI Trained model loaded.</h4>`);
 };
@@ -106,7 +116,8 @@ $("#predict-button").click(function(){
 // image to tensor
 //-----------------------
 function preprocessImage(image){
-	let tensor = tf.fromPixels(image).resizeNearestNeighbor([100,100]).toFloat();	
+//	let tensor = tf.fromPixels(image).resizeNearestNeighbor([100,100]).toFloat();	
+	let tensor = tf.browser.fromPixels(image).resizeNearestNeighbor([64,64]).toFloat();	
 	let offset = tf.scalar(255);
     return tensor.div(offset).expandDims();
 }
