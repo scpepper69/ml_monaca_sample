@@ -4,10 +4,7 @@ const CLASSES = {0:'RX-178', 1:'MSZ-006', 2:'RX-93', 3:'MS-06'}
 //-----------------------
 // start button event
 //-----------------------
-
 $("#select-button").click(function(){
-  //const a = tf.tensor([[1, 2], [3, 4]]);
-  //console.log('shape:', a.shape);
 	loadModel();
 	selectPhoto();
 });
@@ -27,12 +24,8 @@ async function loadModel() {
 	console.log("AI model loading..");
 	$("#console").html(`<h4>AI model loading...</h4>`);
 //	model=await tf.loadModel(`./model/model.json`); 
-//  model=await tf.loadLayersModel(`./model/model.json`);
-//  model=await tf.loadModel(`./gf_model/model.json`);
-//  model=await tf.loadLayersModel(`./gf_model/model.json`);
   model=await tf.loadLayersModel('https://www.scpepper.tokyo/models/model.json');
 //  model=await tf.loadLayersModel('model2/model.json');
-//  model=await tf.loadGraphModel('./gf_model/model.json');
 //  model.summary();
   console.log(model)
 //  $("#console").html(`<h4>`+model.summary()+`</h4>`);
@@ -78,9 +71,9 @@ async function predict(){
   var image = document.getElementById('myImage');
   //Transform to tensor data
   tensor_image = preprocessImage(image);
-  //console.log(tensor_image);
+  console.log(tensor_image);
   prediction = await model.predict(tensor_image).data();
-  //console.log(prediction);
+  console.log(prediction);
 	let results = Array.from(prediction)
 				.map(function(p,i){
 	return {  
@@ -96,7 +89,7 @@ async function predict(){
   //Display the result of top 3
 	results.forEach(function(p){
 		$("#console").append(`<h4>You are ${p.className} (${p.probability.toFixed(1)} %) </h4>`);
-		console.log(p.className,p.probability.toFixed(6))
+		console.log(p.className,p.probability.toFixed(3))
 	});
 
 }
@@ -106,7 +99,8 @@ async function predict(){
 //-----------------------
 
 $("#predict-button").click(function(){
-	setInterval(predict, 1000/10);
+//	setInterval(predict, 1000/10);
+  predict();
 });
 
 

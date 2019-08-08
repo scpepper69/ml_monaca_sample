@@ -7,6 +7,14 @@
     box-sizing:  border-box;
 }
 
+.inline-music {
+    display: inline-block;      /* インラインブロック要素にする */
+    vertical-align:  middle;
+    width:  32%; 
+    text-align:  center; 
+    box-sizing:  border-box;
+}
+
 .inline-img {
     display: inline-block;      /* インラインブロック要素にする */
     vertical-align:  middle;

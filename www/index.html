@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
 <html>
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -25,6 +24,19 @@
       <p><a href="#two" class="ui-btn ui-shadow ui-corner-all">Open Application</a></p>
       <p><a href="#popup" class="ui-btn ui-shadow ui-corner-all" data-rel="dialog" data-transition="pop">Information</a></p>
     </div><!-- /content -->
+    <div class="container-b">
+      <div class="inline-music">
+        <button onclick="playSound()">Play</button>
+      </div>
+      <div class="inline-music">
+        <button onclick="pauseSound()">Pause</button>
+      </div>
+      <div class="inline-music">
+        <button onclick="stopSound()">Stop</button>
+      </div>
+        <p hidden id="audio_position"></p>
+      </div>
+    </div>
 
     <div data-role="footer" data-theme="a" role="contentinfo" class="ui-footer ui-bar-a">
       <h4 class="ui-title" role="heading" aria-level="1">© 2019 scpepper.</h4>
@@ -122,6 +134,69 @@
       <div class="weava-drop-area-text"></div>
     </div>
   </div>
+
+  <script>
+    var media = null;
+    var mediaTimer = null;
+    var srcFile = "Sign.mp3";
+
+    document.addEventListener("deviceready", onDeviceReady, false);
+    function onDeviceReady() {
+      console.log("ready");
+      media = new Media (getPath() + srcFile , onSuccess, onError);
+    }
+    function getPath() {
+      var str = location.pathname;
+      var i = str.lastIndexOf('/');
+      return str.substring(0,i+1);
+    }
+    function playSound(){
+      // play the media file one time.
+      media.play({numberOfLoops: 0});
+      // start the timer
+      if (mediaTimer == null) {
+        mediaTimer = setInterval(function() {
+        // Return a current playback position
+          media.getCurrentPosition(
+            //A Callback function if it's success
+            function(position) {
+              if (position > -1) {
+                //If the playback stops at "-0.001" position, set the timer to 0.
+                if(position == -0.001){
+                  position = 0;
+                }
+                setAudioPosition((position) + " sec");
+              }
+            },
+            //A callback function in case of failure
+            function(error) {
+              console.log("Error getting pos=" + error);
+              setAudioPosition("Error: " + error);
+            }
+          );
+        }, 1000);
+      }
+    }
+    function pauseSound(){
+      if (media) {
+        media.pause();
+      }
+    }
+    function stopSound(){
+      if (media) {
+        media.stop();
+      }
+    }
+    function setAudioPosition(position) {
+      document.getElementById('audio_position').innerHTML = position;
+    }
+    function onSuccess(){
+      console.log("Successfully initialize a media file.");
+    }
+    function onError(error){
+      console.log("Failed to initialize a media file. [ Error code: " + error.code + ", Error message: " + error.message + "]");
+    }
+    </script>
 
   <!-- <script src="js/tensorflow.min.js"></script> -->
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.2.3/dist/tf.min.js"></script>
