@@ -1,42 +1,41 @@
-//const CLASSES = {0:'zero', 1:'one', 2:'two', 3:'three', 4:'four',5:'five', 6:'six', 7:'seven', 8:'eight', 9:'nine'}
+//-----------------------
+// Classification 
+//-----------------------
 const CLASSES = {0:'RX-178', 1:'MSZ-006', 2:'RX-93', 3:'MS-06'}
 
 //-----------------------
-// start button event
+// Select Photo Event
 //-----------------------
 $("#select-button").click(function(){
 	loadModel();
 	selectPhoto();
 });
 
+//-----------------------
+// Take Photo Event
+//-----------------------
 $("#take-button").click(function(){
 	loadModel() ;
 	takePhoto();
 });
 
-
 //-----------------------
-// load model
+// Load Depp Learning Model
 //-----------------------
-
 let model;
 async function loadModel() {
 	console.log("AI model loading..");
 	$("#console").html(`<h4>AI model loading...</h4>`);
-//	model=await tf.loadModel(`./model/model.json`); 
   model=await tf.loadLayersModel('https://www.scpepper.tokyo/models/model.json');
-//  model=await tf.loadLayersModel('model2/model.json');
-//  model.summary();
-  console.log(model)
-//  $("#console").html(`<h4>`+model.summary()+`</h4>`);
+//  console.log(model)
+//  console.log(model.summary());
 	console.log("AI Trained model loaded.");
 	$("#console").html(`<h4>AI Trained model loaded.</h4>`);
 };
 
 //-----------------------
-// start webcam 
+// Select Photo from Library
 //-----------------------
-
 function selectPhoto() {
 	console.log("Selecting a photo start.");
 	$("#console").html(`<h4>Now selecting a photo.</h4>`);
@@ -49,6 +48,9 @@ function selectPhoto() {
   getPicFile();
 }
 
+//-----------------------
+// Take Photo Now
+//-----------------------
 function takePhoto() {
 	console.log("Taking a photo start.");
 	$("#console").html(`<h4>Now taking a photo.</h4>`);
@@ -62,8 +64,7 @@ function takePhoto() {
 }
 
 //-----------------------
-// TensorFlow.js method
-// predict tensor
+// TensorFlow.js method predict tensor
 //-----------------------
 async function predict(){
 
@@ -91,52 +92,29 @@ async function predict(){
 		$("#console").append(`<h4>You are ${p.className} (${p.probability.toFixed(1)} %) </h4>`);
 		console.log(p.className,p.probability.toFixed(3))
 	});
-
 }
 
 //-----------------------
 // predict button event
 //-----------------------
-
 $("#predict-button").click(function(){
 //	setInterval(predict, 1000/10);
   predict();
 });
 
-
-
 //-----------------------
-// TensorFlow.js method
-// image to tensor
+// TensorFlow.js method image to tensor
 //-----------------------
 function preprocessImage(image){
-//	let tensor = tf.fromPixels(image).resizeNearestNeighbor([100,100]).toFloat();	
 	let tensor = tf.browser.fromPixels(image).resizeNearestNeighbor([64,64]).toFloat();	
-	let offset = tf.scalar(255);
+//	let offset = tf.scalar(255);
+	let offset = tf.scalar(1);
     return tensor.div(offset).expandDims();
 }
 
 //-----------------------
-// clear button event
+// Camera Launch Options
 //-----------------------
-
-$("#clear-button").click(function clear() {
-	location.reload();
-});
-
-//-----------------------
-// add
-//-----------------------
-function show_pic() {
-    alert("xxx");
-    navigator.camera.getPicture(dump_pic, fail, {
-        quality : 100,
-        destinationType: Camera.DestinationType.DATA_URL,
-        targetWidth: 300,
-        targetHeight: 300
-    });
-}
-
 function setOptions(srcType) {
     var options = {
         // Some common settings are 20, 50, and 100
@@ -159,47 +137,38 @@ function getPicFile() {
   options.targetHeight = 400;
   options.targetWidth = 400;
   options.destinationType = Camera.DestinationType.DATA_URL;
-
   navigator.camera.getPicture(onSuccess, onFail, options);
 
+  //Callback Function on Success
   function onSuccess(imageData) {
     var image = document.getElementById('myImage');
     image.src = "data:image/jpeg;base64," + imageData;
     console.log("Selected Successfully.");
 	  $("#console").html(`<h4>Selected Successfully.</h4>`);
-
   }
-
-  //失敗時に呼び出されるコールバック関数
+  //Callback Function on Faild
   function onFail(message){
     alert("Error: No photo has selected." + message);
   }
-
 }
 
 function getPicCamera(){
-  //カメラを起動
+
   var srcType = Camera.PictureSourceType.CAMERA;
   var options = setOptions(srcType);
   options.targetHeight = 400;
   options.targetWidth = 400;
   options.destinationType = Camera.DestinationType.DATA_URL;
-
   navigator.camera.getPicture(onSuccess, onFail, options);
 
+  //Callback Function on Success
   function onSuccess(imageData) {
     var image = document.getElementById('myImage');
     image.src = "data:image/jpeg;base64," + imageData;
     console.log("Selected Successfully.");
 	  $("#console").html(`<h4>Selected Successfully.</h4>`);
   }
-
-  //成功時に呼び出されるコールバック関数
-  //function onSuccess(imageURI){
-  //  document.querySelector("#photo").src = imageURI;
-  //}
-        
-  //失敗時に呼び出されるコールバック関数
+  //Callback Function on Faild
   function onFail(message){
       alert("Error:" + message);
   }
