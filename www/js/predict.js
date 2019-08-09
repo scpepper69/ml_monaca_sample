@@ -1,3 +1,5 @@
+const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
+
 //-----------------------
 // Classification 
 //-----------------------
@@ -25,12 +27,12 @@ $("#take-button").click(function(){
 let model;
 async function loadModel() {
 	console.log("AI model loading..");
-	$("#console").html(`<h4>AI model loading...</h4>`);
+	$("#console").html(`<x2>AI model loading...</x2>`);
   model=await tf.loadLayersModel('https://www.scpepper.tokyo/models/model.json');
 //  console.log(model)
 //  console.log(model.summary());
 	console.log("AI Trained model loaded.");
-	$("#console").html(`<h4>AI Trained model loaded.</h4>`);
+	$("#console").html(`<x2>AI Trained model loaded.</x2>`);
 };
 
 //-----------------------
@@ -38,7 +40,7 @@ async function loadModel() {
 //-----------------------
 function selectPhoto() {
 	console.log("Selecting a photo start.");
-	$("#console").html(`<h4>Now selecting a photo.</h4>`);
+	$("#console").html(`<x2>Now selecting a photo.</x2>`);
 
   document.addEventListener("deviceready", onDeviceReady, false);
   function onDeviceReady() {
@@ -53,7 +55,7 @@ function selectPhoto() {
 //-----------------------
 function takePhoto() {
 	console.log("Taking a photo start.");
-	$("#console").html(`<h4>Now taking a photo.</h4>`);
+	$("#console").html(`<x2>Now taking a photo.</x2>`);
 
   document.addEventListener("deviceready", onDeviceReady, false);
   function onDeviceReady() {
@@ -83,15 +85,33 @@ async function predict(){
 	};
 	}).sort(function(a,b){
 		return b.probability-a.probability;
-	}).slice(0,3);
+	}).slice(0,1);
 
-	$("#console").empty();
+  (async () => {
+//    $("#console").empty();
+    $("#console").html(`<x2>Now Predicting.</x2>`);
+    console.log('スタート');
+    await sleep(1000);
+    $("#console").html(`<x2>Now Predicting..</x2>`);
+    await sleep(1000);
+    $("#console").html(`<x2>Now Predicting...</x2>`);
+    await sleep(1000);
+    $("#console").html(`<x2>Now Predicting....</x2>`);
+    await sleep(1000);
+    $("#console").html(`<x2>Now Predicting....</x2>`);
+
+	//$("#console").empty();
+  $("#console").html(`<x2>Completed !</x2>`);
+	$("#imgText").empty();
 
   //Display the result of top 3
 	results.forEach(function(p){
-		$("#console").append(`<h4>You are ${p.className} (${p.probability.toFixed(1)} %) </h4>`);
+//		$("#console").append(`<h4>You are ${p.className} (${p.probability.toFixed(1)} %) </h4>`);
+//		$("#imgText").html(`<h2 style="color:white;">You are ${p.className} (${p.probability.toFixed(1)} %) </h2>`);
+		$("#imgText").html(`<x1>${p.className} (${p.probability.toFixed(1)} %) </x1>`);
 		console.log(p.className,p.probability.toFixed(3))
 	});
+  })();
 }
 
 //-----------------------
@@ -144,11 +164,12 @@ function getPicFile() {
     var image = document.getElementById('myImage');
     image.src = "data:image/jpeg;base64," + imageData;
     console.log("Selected Successfully.");
-	  $("#console").html(`<h4>Selected Successfully.</h4>`);
+	  $("#console").html(`<x2>Selected Successfully.</x2>`);
+    $("#imgText").empty();
   }
   //Callback Function on Faild
   function onFail(message){
-    alert("Error: No photo has selected." + message);
+    //alert("Error: No photo has selected." + message);
   }
 }
 
@@ -166,10 +187,11 @@ function getPicCamera(){
     var image = document.getElementById('myImage');
     image.src = "data:image/jpeg;base64," + imageData;
     console.log("Selected Successfully.");
-	  $("#console").html(`<h4>Selected Successfully.</h4>`);
+	  $("#console").html(`<x2>Selected Successfully.</x2>`);
+    $("#imgText").empty();
   }
   //Callback Function on Faild
   function onFail(message){
-      alert("Error:" + message);
+      //alert("Error:" + message);
   }
 }
