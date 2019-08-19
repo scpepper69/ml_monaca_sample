@@ -90,7 +90,6 @@ async function predict(){
   (async () => {
 //    $("#console").empty();
     $("#console").html(`<x2>Now Predicting.</x2>`);
-    console.log('スタート');
     await sleep(1000);
     $("#console").html(`<x2>Now Predicting..</x2>`);
     await sleep(1000);

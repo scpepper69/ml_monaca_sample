@@ -2,7 +2,7 @@
 .inline-block_test {
     display: inline-block;      /* インラインブロック要素にする */
     vertical-align:  middle;
-    width:  49.2%; 
+    width:  49.0%; 
     text-align:  center; 
     box-sizing:  border-box;
 }
