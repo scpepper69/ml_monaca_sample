@@ -153,8 +153,8 @@ function getPicFile() {
 
   var srcType = Camera.PictureSourceType.SAVEDPHOTOALBUM;
   var options = setOptions(srcType);
-  options.targetHeight = 400;
-  options.targetWidth = 400;
+  options.targetHeight = 320;
+  options.targetWidth = 320;
   options.destinationType = Camera.DestinationType.DATA_URL;
   navigator.camera.getPicture(onSuccess, onFail, options);
 
@@ -176,8 +176,8 @@ function getPicCamera(){
 
   var srcType = Camera.PictureSourceType.CAMERA;
   var options = setOptions(srcType);
-  options.targetHeight = 400;
-  options.targetWidth = 400;
+  options.targetHeight = 320;
+  options.targetWidth = 320;
   options.destinationType = Camera.DestinationType.DATA_URL;
   navigator.camera.getPicture(onSuccess, onFail, options);
 
