@@ -8,27 +8,6 @@
   <link rel="stylesheet" href="components/loader.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="lib/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.css">
-  <script>
-    var nend_params;
-    //iOS/Androidアプリそれぞれに共通のコードとする場合は下記のように処理を切り分けます。
-    if( monaca.isIOS ){
-      nend_params = {"media":62169,"site":326180,"spot":968836,"type":1,"oriented":3}; // iOS
-    }
-    if( monaca.isAndroid ){
-      nend_params = {"media":62169,"site":326180,"spot":968836,"type":1,"oriented":3}; // Android
-    }
-    //広告をタップするとそのままリンク先を開いてしまうことがありますので、その対策を記述します。
-    window.addEventListener('load', function() {
-      var nend_links = document.querySelectorAll('.nend_wrapper a');
-      for(var i = 0; i < nend_links.length; i+=1){
-        (function() {
-          var href = nend_links[i].href;
-          nend_links[i].href = "#";
-          nend_links[i].onclick = function(){window.open(href); return false;}
-        })();
-      }
-    });
-  </script>
 </head>
 
 <body data-gr-c-s-loaded="true" class="ui-mobile-viewport ui-overlay-a" style="" data-feedly-mini="yes">
@@ -41,17 +20,17 @@
 <!--    <div role="main" class="ui-content" style="background-color:#f8dce0"> -->
     <div role="main" class="ui-content" style="background: url(img/background_shur_60.png);">
       <img border="0" src="img/eye_catch_005.jpg" class="inline-img" width="320" height="320">
-      <p><a href="#two" class="ui-btn ui-shadow ui-corner-all">Open Application</a></p>
-      <p><a href="#popup" class="ui-btn ui-shadow ui-corner-all" data-rel="dialog" data-transition="pop">Information</a></p>
+      <p><a href="#two" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-gear">Open Application</a></p>
+      <p><a href="#popup" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-info" data-rel="dialog" data-transition="pop">Information</a></p>
       <div class="container-b">
         <div class="inline-music">
-          <button class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini" onclick="playSound()">Play</button>
+          <button class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini" onclick="playSound()">▷</button>
         </div>
         <div class="inline-music">
-          <button class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini" onclick="pauseSound()">Pause</button>
+          <button class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini" onclick="pauseSound()">||</button>
         </div>
         <div class="inline-music">
-          <button class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini" onclick="stopSound()">Stop</button>
+          <button class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-mini" onclick="stopSound()">■</button>
         </div>
         <div>
           <p hidden id="audio_position"></p>
@@ -60,6 +39,10 @@
     </div>
     <div data-role="footer" data-theme="a" role="contentinfo" class="ui-footer ui-bar-a">
       <!--<h4 class="ui-title" role="heading" aria-level="1">© 2019 scpepper.</h4>-->
+      <script type="text/javascript">
+        var nend_params = {"media":62169,"site":326180,"spot":968836,"type":1,"oriented":3};
+      </script>
+      <script type="text/javascript" src="https://js1.nend.net/js/nendAdLoader.js"></script>
     </div><!-- /footer -->
   </div><!-- /page one -->
 
@@ -68,6 +51,7 @@
     <div data-role="header">
       <a href="#one" data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-btn-icon-left ui-icon-home">Back</a>
       <h1>AI Robot Prediction</h1>
+      <a href="#help" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-btn-icon-left ui-icon-alert" data-rel="dialog" data-transition="pop">Help</a>
     </div><!-- /header -->
 
     <div role="main" class="ui-content" style="background: url(img/background_shur_60.png);">
@@ -83,8 +67,12 @@
       </div>
     </div><!-- /content -->
     <div data-role="footer">
-      <div class="nend_wrapper"><script src="http://js1.nend.net/js/nendAdLoader.js"></script></div>
+<!--      <div class="nend_wrapper"><script src="http://js1.nend.net/js/nendAdLoader.js"></script></div>-->
       <!--<h4>© 2019 scpepper.</h4>-->
+      <script type="text/javascript">
+        var nend_params = {"media":62169,"site":326180,"spot":968946,"type":1,"oriented":3};
+      </script>
+      <script type="text/javascript" src="https://js1.nend.net/js/nendAdLoader.js"></script>
     </div><!-- /footer -->
   </div><!-- /page two -->
 
@@ -108,6 +96,28 @@
       <h4>© 2019 scpepper.</h4>
     </div><!-- /footer -->
   </div><!-- /page popup -->
+
+  <!-- Start of third page: #help -->
+  <div data-role="page" id="help" data-url="help">
+    <div data-role="header" data-theme="b">
+      <h1>Help</h1>
+    </div><!-- /header -->
+
+    <div role="main" class="ui-content">
+      <h3>How to Use</h3>
+      <p>1. Take a photo or select a photo from the library in your device.</p>
+      <p>2. While selecting or taking a photo, the AI model is loading.</p>
+      <p>3. After selecting or taking a photo, please push "Execute Prediction".</p>
+      <p>If you have any comments, please contact me from my blog below.</p>
+      <p><a href="https://www.scpepper.tokyo" target="_blank">Origin of Taste</a></p>
+      <p><a href="#two" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-icon-back ui-btn-icon-left">Back
+          to Application</a></p>
+    </div><!-- /content -->
+
+    <div data-role="footer">
+      <h4>© 2019 scpepper.</h4>
+    </div><!-- /footer -->
+  </div><!-- /page help -->
 
   <div class="ui-loader ui-corner-all ui-body-a ui-loader-default"><span class="ui-icon-loading"></span>
     <h1>loading</h1>

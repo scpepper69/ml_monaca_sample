@@ -100,7 +100,7 @@ async function predict(){
     $("#console").html(`<x2>Now Predicting....</x2>`);
 
 	//$("#console").empty();
-  $("#console").html(`<x2>Completed !</x2>`);
+  $("#console").html(`<x2>Prediction Completed !</x2>`);
 	$("#imgText").empty();
 
   //Display the result of top 3
