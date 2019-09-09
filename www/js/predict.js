@@ -3,7 +3,7 @@ const sleep = msec => new Promise(resolve => setTimeout(resolve, msec));
 //------------------------------------------------
 // Classification 
 //------------------------------------------------
-const CLASSES = {0:'RX-178', 1:'MSZ-006', 2:'RX-93', 3:'MS-06'}
+const CLASSES = {0:'RX-178', 1:'MSZ-006', 2:'RX-93', 3:'MS-06', 4:'RX-78-2', 5:'F91'}
 
 //------------------------------------------------
 // Select Photo Event
