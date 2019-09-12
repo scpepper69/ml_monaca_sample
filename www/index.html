@@ -12,14 +12,14 @@
 
 <body data-gr-c-s-loaded="true" class="ui-mobile-viewport ui-overlay-a" style="" data-feedly-mini="yes">
   <!-- Start of first page: #one -->
-  <div data-role="page" id="one" data-url="one" tabindex="0" class="ui-page ui-page-theme-a ui-page-active" style="">
+  <div data-role="page" id="one" data-url="one" tabindex="0" class="ui-page ui-page-theme-a ui-page-active" style="background: url(img/background_shur_60.png);">
     <div data-role="header" role="banner" class="ui-header ui-bar-inherit">
       <h1 class="ui-title" role="heading" aria-level="2">AI Robot Prediction</h1>
     </div><!-- /header -->
 
 <!--    <div role="main" class="ui-content" style="background-color:#f8dce0"> -->
-    <div role="main" class="ui-content" style="background: url(img/background_shur_60.png);height:80vh;">
-      <img border="0" src="img/eye_catch_005.jpg" class="inline-img" width="320" height="320">
+    <div role="main" class="ui-content">
+      <img border="0" src="img/eye_catch_005.jpg" class="inline-img" width="640" height="640">
       <p><a href="#two" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-gear">Open Application</a></p>
       <p><a href="#popup" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-info" data-rel="dialog" data-transition="pop">Information</a></p>
       <div class="container-b">
@@ -37,29 +37,29 @@
         </div>
       </div><!-- /content -->
     </div>
-    <div data-role="footer" data-theme="a" role="contentinfo" class="ui-footer ui-bar-a">
+    <div data-role="footer" class="inline-img" style="position: fixed; bottom: 0;">
       <!--<h4 class="ui-title" role="heading" aria-level="1">© 2019 scpepper.</h4>-->
       <script type="text/javascript">
         //nend Ads : footer ads 01
         var nend_params = {"media":62169,"site":326180,"spot":968836,"type":1,"oriented":3};
       </script>
-      <div class="nend_wrapper"><script type="text/javascript" src="https://js1.nend.net/js/nendAdLoader.js"></script></div>
+      <div class="nend_wrapper" style="position: fixed; bottom: 0;"><script type="text/javascript" src="https://js1.nend.net/js/nendAdLoader.js"></script></div>
     </div><!-- /footer -->
   </div><!-- /page one -->
 
   <!-- Start of second page: #two -->
-  <div data-role="page" id="two" data-theme="a" data-url="two">
+  <div data-role="page" id="two" data-theme="a" data-url="two" style="background: url(img/background_shur_60.png);">
     <div data-role="header">
       <a href="#one" data-direction="reverse" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-btn-icon-left ui-icon-home">Back</a>
       <h1>AI Robot Prediction</h1>
       <a href="#help" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-btn-icon-left ui-icon-alert" data-rel="dialog" data-transition="pop">Help</a>
     </div><!-- /header -->
 
-    <div role="main" class="ui-content" style="background: url(img/background_shur_60.png);height:80vh;">
+    <div role="main" class="ui-content">
       <div style="position: relative;">
-        <img id="myImage" src="img/eye_catch_005.jpg" class="inline-img" width="320" height="320">
+        <img id="myImage" src="img/eye_catch_005.jpg" class="inline-img" width="640" height="640">
         <div id="imgText" style="position:absolute; top:10px; left:10px; width: 320px;"></div>
-        <div id="console" style="position:absolute; top:290px; left:10px; width: 320px;"><x2>Please load a photo.</x2></div>
+        <div id="console" style="position:absolute; bottom:10px; left:10px; width: 320px;"><x2>Please load a photo.</x2></div>
       </div>
       <div class="container-b">
         <p><button id="take-button" class="ui-btn ui-btn-c ui-shadow ui-corner-all ui-btn-icon-left ui-icon-camera">Take Now !</button></p>
@@ -67,7 +67,7 @@
         <button id="predict-button" class="ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-action">Execute Prediction</button>
       </div>
     </div><!-- /content -->
-    <div data-role="footer">
+    <div data-role="footer" class="inline-img" style="position: fixed; bottom: 0;">
       <!--<h4>© 2019 scpepper.</h4>-->
       <script type="text/javascript">
         //nend Ads : footer ads 02
